@@ -1,5 +1,9 @@
-class DOMComponentWrapper {
+import DOM from "./DOM";
+import MultiChild from "./MultiChild";
+
+class DOMComponentWrapper extends MultiChild {
   constructor(element) {
+    super();
     this._currentElement = element;
     this._domNode = null;
   }
@@ -14,6 +18,9 @@ class DOMComponentWrapper {
   _createInitialDOMChildren(props) {
     if (typeof props.children === "string") {
       this._domNode.textContent = props.children;
+    } else if (Array.isArray(props.children)) {
+      let mountImages = this.mountChildren(props.children);
+      DOM.appendChildren(this._domNode, mountImages);
     }
   }
 }

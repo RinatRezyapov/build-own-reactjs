@@ -5,9 +5,11 @@ export function instantiateComponent(element) {
   let wrapperInstance;
   if (typeof element.type === "string") {
     wrapperInstance = HostComponent.construct(element);
-  } else {
+  } else if (typeof element.type === "function") {
     wrapperInstance = new element.type(element.props);
     wrapperInstance._construct(element);
+  } else if (typeof element === "string" || typeof element === "number") {
+    wrapperInstance = HostComponent.constructTextComponent(element);
   }
 
   return wrapperInstance;
@@ -26,9 +28,7 @@ export class Component {
 
   mountComponent() {
     const renderedElement = this.render();
-    console.log("renderedElement in Component.mountComponent", renderedElement);
     const renderedComponent = instantiateComponent(renderedElement);
-    console.log("DOMComponentWrapper", renderedComponent);
     this._renderedComponent = renderedComponent;
     return Reconciler.mountComponent(renderedComponent);
   }

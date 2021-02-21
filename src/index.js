@@ -5,7 +5,23 @@ class App extends Component {
   render() {
     return {
       type: "div",
-      props: { children: `We are building ${this.props.title}` }
+      props: {
+        children: [
+          {
+            type: "h1",
+            props: {
+              children: [
+                `We are building ${this.props.title}`,
+                ["Are we?", "Really?", ["Well...", "That is impressive"]]
+              ]
+            }
+          },
+          {
+            type: "h2",
+            props: { children: `And it's cool!` }
+          }
+        ]
+      }
     };
   }
 }
